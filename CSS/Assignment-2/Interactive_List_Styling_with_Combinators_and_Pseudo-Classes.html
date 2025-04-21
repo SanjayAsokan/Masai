@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    .l1{
+        font-weight:bold;
+
+    }
+    .l1 + li {
+        background-color: lightgreen;
+        }
+    .l2 ~ li{
+        font-style:italic;
+    }
+    li:hover{
+        color:red;
+
+    }
+    </style>
+</head>
+<body>
+    <ol>
+    <li class='l1'>List item 1</li>
+    <li class='l2'>List item 2</li>
+    <li >List item 3</li>
+    <li>List item 4</li>
+    <li>List item 5</li>
+    </ol>
+</body>
+</html>

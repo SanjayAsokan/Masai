@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic Navigation Bar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    nav {
+      background-color: #f0f0f0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;  
+      align-items: center;       
+      gap: 40px;
+      font-family: sans-serif;
+    }
+
+    .section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center; 
+    }
+
+    .section1 a {
+      color: royalblue;
+    }
+
+    .section2 a {
+      color: seagreen;
+    }
+
+    .section3 a {
+      color: darkorange;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+      color: deeppink;
+    }
+
+    nav a:active {
+      color: red;
+    }
+
+    .section1 > a,
+    .section2 > a,
+    .section3 > a {
+      font-weight: bold;
+    }
+
+    a[href^="https"] {
+      color: teal !important; 
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="section section1">
+        <a href="https://home.com">Home</a>
+        <div>
+          <a href="/about">About Us</a><br>
+          <a href="/team">Our Team</a>
+        </div>
+      </div>
+
+      <div class="section section2">
+        <a href="https://services.com">Services</a>
+        <div>
+          <a href="/web">Web Design</a><br>
+          <a href="/seo">SEO</a>
+        </div>
+      </div>
+
+      <div class="section section3">
+        <a href="https://contact.com">Contact</a>
+        <div>
+          <a href="/support">Support</a><br>
+          <a href="/faq">FAQ</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+</body>
+</html>
