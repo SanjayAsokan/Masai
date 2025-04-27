@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Text</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-size: 14px; /* default font size for mobile */
+      line-height: 1.5; /* default line height for mobile */
+      font-family: Arial, sans-serif;
+    }
+
+    h1, h2, p {
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: 600px) {
+      body {
+        font-size: 16px; /* increase font size */
+        line-height: 1.5; /* same line height */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Fixing poor readability</h1>
+  <h2>webpage has poor readability</h2>
+  <p>
+    The webpage renders at the correct width on all devices. For screens smaller than 600px, 
+    all text elements should have a font size of 14px and line height of 1.5.For larger screens, 
+    the font size should increase to 16px.Use a mobile-first approach for styling.
+  </p>
+
+</body>
+</html>

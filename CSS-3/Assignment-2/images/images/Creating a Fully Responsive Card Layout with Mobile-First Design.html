@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build the following page using grid</title>
+    <style>
+       
+        #investor{
+            width: 90%;
+            margin: auto;
+            /* border: 2px solid black; */
+            padding:10px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+         
+        }
+        #investor>div>img{
+            width: 100%;
+            height: auto;
+            border-radius: 10px 10px 0 0;
+        }
+        #investor>div{
+            text-align: center;
+            gap: 10px;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.19);
+            height: 95%;
+            width: 90%;
+            margin-bottom: 10px;
+            border-radius: 10px 10px 10px 10px;
+        }
+        h3,p{
+            margin: 5px;
+            font-size: 20px;
+        }
+        button{
+            background-color: rgb(11, 17, 17);
+            padding: 10px;
+            border-radius: 5px;
+            color: aliceblue;
+            font-weight: bold;
+        }
+        @media (max-width: 599px) {
+        #investor {
+        grid-template-columns:1fr
+        }
+        #investor > div img:first-child {
+        max-width: 100%;
+        }
+       }
+        @media  (min-width: 600px) and (max-width: 1024px) {
+        #investor {
+        grid-template-columns:repeat(2, 1fr)
+        }
+        #investor > div img:first-child {
+        max-width: 100%;
+        }
+       }
+       @media (min-width: 1025px) {
+        #investor {
+        grid-template-columns:repeat(3, 1fr)
+        }
+        #investor > div img:first-child {
+        max-width: 100%;
+        }
+       }
+    </style>
+</head>
+<body>
+    <center><h1>Board Members</h1></center>
+    <main>
+        <section id="investor">
+            <div>
+                <img src="1.png">
+                <h3>Vijay Shekhar Sharma</h3>
+                <p>Founder & CEO</p>
+                <button type="submit">About Me</button>
+            </div>
+            <div>
+                <img src="2.png">
+                <h3>Kunal Shah</h3>
+                <p>Founder</p>
+                <button type="submit">About Me</button>
+            </div>
+            <div>
+                <img src="3.png">
+                <h3>Amrish Rau</h3>
+                <p>CEO</p>
+                <button type="submit">About Me</button>
+            </div>
+            <div>
+                <img src="4.png">
+                <h3>Sampad Swain</h3>
+                <p> Co-Founder & CEO</p>
+                <button type="submit">About Me</button>
+            </div>
+            <div>
+                <img src="5.png">
+                <h3>Ankush Sachdeva </h3>
+                <p>Co-Founder & CEO</p>
+                <button type="submit">About Me</button>
+            </div>
+            <div>
+                <img src="6.png">
+                <h3>Bhanu Pratap Singh</h3>
+                <p>Co-Founder & CTO</p>
+                <button type="submit">About Me</button>
+            </div>
+            <div>
+                <img src="7.png">
+                <h3>Farid Ahsan</h3>
+                <p> Co-Founder & COO</p>
+                <button type="submit">About Me</button>
+            </div>
+            <div>
+                <img src="8.png">
+                <h3>Amit Kumar Agarwal </h3>
+                <p> Founder & CEO</p>
+                <button type="submit">About Me</button>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
