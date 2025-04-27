@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style> 
+    #bx{
+        width:90%;
+        height:50vh;
+        margin: auto;
+        padding: 20px;
+        display: grid;
+        grid-template-areas: "a2 a2 a4"
+                             "a1 a3 a4";
+        gap:30px;
+        background-color: rgb(232, 159, 235);
+    }
+    #bx>div{
+        border: 5px solid;
+        justify-content: center;
+        align-content: center;
+        text-align: center;
+        font-size: 40px;
+    }
+  
+    #bx>div:nth-of-type(1){
+        background-color: rgb(76, 0, 255);
+        grid-area: a1;
+    }
+    #bx>div:nth-of-type(2){
+        background-color: rgb(255, 60, 0);
+        grid-area: a2;
+    }
+    #bx>div:nth-of-type(3){
+        background-color: rgba(105, 17, 24, 0.686);
+        grid-area: a3;
+    }
+    #bx>div:nth-of-type(4){
+        background-color: rgb(215, 173, 175);
+        grid-area: a4;
+    }
+    </style>
+</head>
+<body>
+    <div id="bx">
+        <div>1</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>       
+    </div>
+</body>
+</html>
