@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      /* Style even-numbered articles with a background color */
+      article:nth-of-type(even) {
+        background-color: #f9f9f9;
+      }
+
+      /* Make the last paragraph inside each article italic */
+      article p:last-of-type {
+        font-style: italic;
+      }
+
+      /* Make the first paragraph of each section bold */
+      article section > :first-child {
+        font-weight: bold;
+      }
+
+      /* Add a border to the title if the article contains an image */
+      article img + * {
+        border: 2px solid #4682b4;
+        padding: 4px;
+      }
+
+      footer {
+        background-color: aliceblue;
+        justify-content: center;
+        text-align: center;
+      }
+
+      /* Style the links inside the footer */
+      footer a {
+        color: rgb(154, 145, 23);
+        text-decoration: underline;
+      }
+
+      /* Set minimum height for paragraphs */
+      p {
+        min-height: 1em;
+      }
+
+      /* Hide paragraphs with data-check="true" */
+      p[data-check="true"] {
+        display: none;
+      }
+    </style>
+</head>
+<body>
+      <p>This is a standalone paragraph.</p>
+
+  <article>
+    <h1>First Article Title</h1>
+    <section>
+      <p>First section first paragraph</p>
+      <p>Another paragraph in section</p>
+    </section>
+    <section>
+      <p>Another section’s first paragraph</p>
+    </section>
+    <p>This is the last paragraph of the article.</p>
+  </article>
+
+  <article>
+    <h1>Second Article with Image</h1>
+    <img src="https://cdn.masaischool.com/masai-website/Masai_Logo_dark_web_b21aab8c62.webp" alt="image">
+    <section>
+      <p>Section in second article</p>
+    </section>
+    <p>Conclusion paragraph in article 2.</p>
+  </article>
+
+  <article>
+    <h1>Third Article</h1>
+    <section>
+      <p>First section paragraph</p>
+    </section>
+    <p data-check="true"></p> <!-- hidden Empty paragraph  -->
+    <p>Final thoughts.</p>
+  </article>
+
+  <footer>
+    <p>Contact us:</p>
+    <a href="#">Email</a> |
+    <a href="#">Privacy Policy</a>
+  </footer>
+</body>
+</html>

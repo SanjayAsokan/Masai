@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+  header {
+  background-color: #7f4e4e;
+  color: #fff;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+nav {
+  background-color: #dcb7b7;
+  position: sticky;
+}
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  list-style-type: none;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+.left {
+  flex: 7;
+  margin-right: 20px;
+}
+.right {
+  width: 250px;
+  position: sticky;
+  top: 70px;  
+  height: calc(100vh - 70px);
+}
+footer {
+  background-color: #7f4e4e;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  margin-top: auto;
+}
+
+    </style>
+</head>
+<body>
+
+  <header>
+    <h1>News Portal</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">World</a></li>
+      <li><a href="#">Technology</a></li>
+      <li><a href="#">Sports</a></li>
+      <li><a href="#">Entertainment</a></li>
+    </ul>
+  </nav>
+
+  <div class="main-content">
+
+    <div class="left">
+      <h2>Latest News</h2>
+      <p>News content here</p>
+    </div>
+    
+    <div class="right">
+      <h2>Trending Topics</h2>
+      <p>Trending content here</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 News Portal.</p>
+  </footer>
+    
+</body>
+</html>

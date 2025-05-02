@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  body {
+    background-color: #111;
+    color: #eee;
+  }
+  button {
+    background-color: #444;
+    color: #fff;
+  }
+} */
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  button {
+    background-color: #008cba;
+    color: #fff;
+  }
+}
+
+.product-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+}
+
+.product-details {
+  padding: 10px;
+}
+
+.product-pricing {
+  padding: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #005f73;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .product-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 15px;
+  }
+
+  .product-pricing {
+    grid-column: 2 / 3;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+  }
+
+  .product-image, .product-details, .product-pricing {
+    width: 100%;
+  }
+
+  button {
+    width: 80%;
+  }
+}
+</style>
+</head>
+<body>
+    <main class="product-container">
+    <div class="product-image">
+    <img src="https://media.istockphoto.com/id/1297409754/photo/a-woman-artisan-making-bamboo-made-baskets-and-other-handicrafts-at-saras-mela-in-kolkata.jpg?s=612x612&w=0&k=20&c=wL733-W2PRMqd5uW6dAC8feWtlUHnGc84QVKa2fgeNI=" alt="Product Image" width="300">
+    </div>
+
+    <div class="product-details">
+      <h1>General Market</h1>
+      <p>This is a brief description of the product. It explains features and benefits.</p>
+    </div>
+
+    <div class="product-pricing">
+      <h2>$9.99</h2>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product-image">
+    <img src="https://media.istockphoto.com/id/1442698987/photo/mother-and-adult-daughter-with-shopping-cart-and-basket-at-discount-store.jpg?s=612x612&w=0&k=20&c=wSCzm5srEV2s2Au7slQU_fHDwaeMDL5w5zb2gUktkLo=" alt="Product Image" width="300">
+    </div>
+
+    <div class="product-details">
+      <h1>Super Market</h1>
+      <p>This is a brief description of the product. It explains features and benefits.</p>
+    </div>
+
+    <div class="product-pricing">
+      <h2>$15.99</h2>
+      <button>Add to Cart</button>
+    </div>
+
+    <div class="product-image">
+    <img src="https://cdn.pixabay.com/photo/2024/02/24/01/31/ai-generated-8593076_1280.jpg" alt="Product Image" width="300">
+    </div>
+
+    <div class="product-details">
+      <h1>Food Factory</h1>
+      <p>This is a brief description of the product. It explains features and benefits.</p>
+    </div>
+
+    <div class="product-pricing">
+      <h2>$50.99</h2>
+      <button>Add to Cart</button>
+    </div>
+  </main>
+</body>
+</html>
