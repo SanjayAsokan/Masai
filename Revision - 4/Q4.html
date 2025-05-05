@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple SaaS Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #1e1e1e;
+      width: 80px;
+      padding: 16px 0;
+      height: 100vh;
+    }
+
+    .sidebar a {
+      margin: 19px 0;
+      font-size: 20px;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .main {
+      margin-left: 10px;
+      
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1a1a1a;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+    span{
+        color:#00ffff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      justify-content: center;
+      align-items:center;
+      padding: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .card ul {
+      list-style-position: inside;
+      padding-left: 0;
+    }
+    button {
+      padding: 10px 16px;
+      border-radius: 25px;
+      border: none;
+      background-color: #00ffff;
+      color: #000000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        flex-direction: row;
+        height: auto;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <a href="#">🏠</a>
+    <a href="#">📊</a>
+    <a href="#">🧑</a>
+    <a href="#">⚙️</a>
+  </div>
+
+  <div class="main">
+    <header>
+      <h2><span>Dash</span>board</h2>
+      <button>Action</button>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h3>User Stats</h3>
+        <p>Active Users: 1200</p>
+      </div>
+      <div class="card">
+        <h3>Chart</h3>
+        <p>[Chart Placeholder]</p>
+      </div>
+      <div class="card" style="grid-column: span 2;">
+        <h3>Recent Activities</h3>
+        <ul>
+          <li>User A logged in</li>
+          <li>User B made a purchase</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
