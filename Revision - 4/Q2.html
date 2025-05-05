@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pricing Table</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet" />
+  <style>
+  body {
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #F4F6F8;
+  color: #333;
+}
+
+.pricing-section {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+h1 {
+  margin-bottom: 40px;
+  font-size: 2.5em;
+  color: #0A74DA;
+}
+
+.pricing-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card h2 {
+  color: #0A74DA;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 10px 0 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px;
+}
+
+li {
+  margin: 10px 0;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #0A74DA;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #084c9e;
+}
+
+/* Highlight Standard Plan */
+.recommended {
+  background: #E3F0FF;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  transform: translateY(-10px);
+}
+
+.recommended .primary-btn {
+  background: #0A74DA;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <section class="pricing-section">
+    <h1>Our Plans</h1>
+    <div class="pricing-grid">
+
+      <div class="card">
+        <h2>Basic</h2>
+        <p class="price"><svg xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="24px" fill="dark"><path d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z"/></svg>149/month</p>
+        <ul>
+          <li>1 User</li>
+          <li>5GB Storage</li>
+          <li>Email Support</li>
+        </ul>
+        <button>Select</button>
+      </div>
+
+
+      <div class="card recommended">
+        <h2>Standard</h2>
+        <p class="price"><svg xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="24px" fill="dark"><path d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z"/></svg>349/month</p>
+        <ul>
+          <li>5 Users</li>
+          <li>50GB Storage</li>
+          <li>Priority Support</li>
+        </ul>
+        <button class="primary-btn">Get Started</button>
+      </div>
+
+
+      <div class="card">
+        <h2>Premium</h2>
+        <p class="price"><svg xmlns="http://www.w3.org/2000/svg" height="25px" viewBox="0 -960 960 960" width="24px" fill="dark"><path d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z"/></svg>599/month</p>
+        <ul>
+          <li>Unlimited Users</li>
+          <li>1TB Storage</li>
+          <li>24/7 Support</li>
+        </ul>
+        <button>Select</button>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
