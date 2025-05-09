@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>L2 - Advanced Task Manager</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <center><h1>Task Manager with Event Delegation and Filtering</h1></center>
+
+  <h2>Task Manager</h2>
+
+  <input type="text" id="taskInput" placeholder="Enter Task" />
+  <button id="add-btn">Add Task</button>
+  <button id="sort-btn">Sort in A-Z</button><br><br>
+
+  <button id="showall">All</button>
+  <button id="showcompleted">Show Completed</button>
+  <button id="showincompleted">Show Incomplete</button>
+
+  <ul id="taskList"></ul>
+
+  <p>
+    Total: <span id="total">0</span> |
+    Completed: <span id="done">0</span> |
+    Incomplete: <span id="notdone">0</span>
+  </p>
+
+  <script>
+    let tasks = [];
+
+    const taskInput = document.getElementById("taskInput");
+    const taskList = document.getElementById("taskList");
+    const totalSpan = document.getElementById("total");
+    const completed = document.getElementById("done");
+    const incomplete = document.getElementById("notdone");
+
+    function updateList(filter = "all") {
+      taskList.innerHTML = "";
+
+      const filtered = tasks.filter(task => {
+        if (filter === "completed") return task.done;
+        if (filter === "incompleted") return !task.done;
+        return true;
+      });
+
+      filtered.forEach((task, index) => {
+        const li = document.createElement("li");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox"; //Important!
+        checkbox.checked = task.done;
+        checkbox.onchange = () => {
+          task.done = !task.done;
+          updateList(filter);
+        };
+
+        const span = document.createElement("span");
+        span.textContent = " " + task.text + " ";
+        if (task.done) span.classList.add("completed");
+
+        const del = document.createElement("button");
+        del.textContent = "Delete";
+        del.onclick = () => {
+          tasks.splice(index, 1);
+          updateList(filter);
+        };
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(del);
+        taskList.appendChild(li);
+      });
+
+      // Update counters
+      totalSpan.textContent = tasks.length;
+      completed.textContent = tasks.filter(t => t.done).length;
+      incomplete.textContent = tasks.filter(t => !t.done).length;
+    }
+
+    document.getElementById("add-btn").onclick = () => {
+      const text = taskInput.value.trim();
+      if (text === "") {
+        alert("Please enter a task");
+        return;
+      }
+      tasks.push({ text: text, done: false });
+      taskInput.value = "";
+      updateList();
+    };
+
+    document.getElementById("sort-btn").onclick = () => {
+      tasks.sort((a, b) => a.text.localeCompare(b.text));
+      updateList();
+    };
+
+    document.getElementById("showall").onclick = () => updateList("all");
+    document.getElementById("showcompleted").onclick = () => updateList("completed");
+    document.getElementById("showincompleted").onclick = () => updateList("incompleted");
+
+    updateList(); // initial load
+  </script>
+</body>
+</html>
