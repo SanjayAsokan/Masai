@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Notes</title>
+    <style>
+        #container{
+            margin: auto;
+            height: auto;
+            width: 30%;
+            background-color: aquamarine;
+            padding: 20px;
+            border: 2px solid black;
+        }
+        h2{
+            border: 1px solid rgb(86, 173, 178);
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <center><h1>Save and Load User Notes</h1></center>
+    <div id="container">
+        <h2>Notes To Be Loaded App</h2>
+        <textarea name="" id="noteInput" placeholder="Write youe notes here..."></textarea>
+        <br><br>
+        <button onclick="saveNote()">Save</button>
+        <button onclick="loadNote()">View</button>
+        <button onclick="clearNote()">Delete</button>
+
+        <h3>Saved Notes</h3>
+        <ul id="noteList"></ul>
+    </div>
+
+    <script>
+        const noteInput = document.getElementById('noteInput');
+        const noteList = document.getElementById('noteList');
+
+        window.onload = loadNotes;
+        
+
+        function saveNote(){
+            const note = noteInput.value;
+            if(note == ''){
+             alert("please enter any notes before saving")
+            return
+            }
+
+            let notes = [];
+            let storedNotes = localStorage.getItem("userNotes");
+
+            if(storedNotes){
+                notes = JSON.parse(storedNotes);
+            }
+
+            notes.push(note);
+            localStorage.setItem("userNotes", JSON.stringify(notes));
+            noteInput.value = '';
+            loadNotes();
+            alert("Note Saved successfully.");
+        }
+
+        function loadNote(){
+            noteList.innerHTML = "";
+            const storedNotes = localStorage.getItem("userNotes");
+            if(storedNotes){
+                const notes = JSON.parse(storedNotes)
+                 if(notes.length > 0){
+                    notes.forEach(note =>{
+                        const li = document.createElement("li");
+                        li.textContent = note;
+                        noteList.appendChild(li)
+                    });
+                }else{
+                   noteList.innerHTML = "<li>No Saved notes.</li>"
+                 }
+                }else{
+                    noteList.innerHTML = "<li>No Saved notes.</li>"
+                }
+            }
+
+        function clearNote(){
+            localStorage.removeItem("userNotes");
+            noteList.innerHTML = "";
+            noteInput.value = "";
+            alert("Note deleted")
+        }
+    </script>
+</body>
+</html>

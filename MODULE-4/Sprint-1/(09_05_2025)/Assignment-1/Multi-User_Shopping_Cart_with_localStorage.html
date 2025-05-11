@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shopping Cart</title>
+  <style>
+    #container{
+        margin: auto;
+        height: auto;
+        width: 50%;
+        padding: 20px;
+        border: 2px solid black;
+        background-color: lightgray;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <center><h1>Multi-User Shopping Cart</h1></center>
+  <div id="container">
+  <!-- Login Section -->
+  <center><div id="login-section">
+     <h2>Login</h2>
+    <input type="text" id="username" placeholder="Enter username" />
+    <button onclick="login()">Login</button>
+  </div></center>
+
+  <!-- Cart Section -->
+  <div id="cart-section" style="display: none;">
+    <h2>Welcome, <span id="user-name"></span></h2>
+
+    <!-- Add Item Section -->
+    <div>
+      <input type="text" id="item-name" placeholder="Item Name" />
+      <input type="number" id="item-price" placeholder="Item Price" />
+      <input type="number" id="item-quantity" placeholder="Item Quantity" />
+      <button onclick="addItem()">Add Item</button>
+    </div>
+    <h3>Your Cart</h3>
+    <ul id="cart-list"></ul>
+
+    <p>Total Cost: INR<span id="total-cost">0</span></p>
+  </div>
+</div>
+  <script>
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      if (username === '') {
+        alert('Please enter a username');
+        return;
+      }
+
+      // Check if user already exists in localStorage
+      let users = JSON.parse(localStorage.getItem('users')) || {};
+      if (!users[username]) {
+        alert('User not found. Creating a new user.');
+        users[username] = []; // Initialize empty cart for the new user
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+
+      // Store current user in localStorage
+      localStorage.setItem('currentUser', username);
+      loadCart(username);
+    }
+
+    // Function to load the user's cart and display the cart data
+    function loadCart(username) {
+      const cartSection = document.getElementById('cart-section');
+      const loginSection = document.getElementById('login-section');
+      const userNameDisplay = document.getElementById('user-name');
+      const cartList = document.getElementById('cart-list');
+      const totalCostDisplay = document.getElementById('total-cost');
+
+      // Hide the login section and show the cart section
+      loginSection.style.display = 'none';
+      cartSection.style.display = 'block';
+
+      userNameDisplay.textContent = username;
+      const users = JSON.parse(localStorage.getItem('users'));
+      const cart = users[username] || [];
+
+      // Render cart items
+      cartList.innerHTML = '';
+      let totalCost = 0;
+      cart.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = 'cart-item';
+
+        const itemDetails = `${item.itemName} - $${item.price} x ${item.quantity} = $${item.price * item.quantity}`;
+        li.textContent = itemDetails;
+
+        // Edit and Delete buttons
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.onclick = () => editItem(username, index);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = () => deleteItem(username, index);
+
+        li.appendChild(editButton);
+        li.appendChild(deleteButton);
+        cartList.appendChild(li);
+
+        totalCost += item.price * item.quantity;
+      });
+
+      totalCostDisplay.textContent = totalCost;
+    }
+
+    function addItem() {
+      const itemName = document.getElementById('item-name').value.trim();
+      const itemPrice = parseFloat(document.getElementById('item-price').value.trim());
+      const itemQuantity = parseInt(document.getElementById('item-quantity').value.trim());
+
+      if (itemName === '' || isNaN(itemPrice) || isNaN(itemQuantity) || itemQuantity <= 0) {
+        alert('Please provide valid item details');
+        return;
+      }
+
+      const currentUser = localStorage.getItem('currentUser');
+      const users = JSON.parse(localStorage.getItem('users'));
+      const cart = users[currentUser];
+
+      cart.push({
+        itemName,
+        price: itemPrice,
+        quantity: itemQuantity
+      });
+
+      // Save updated cart to localStorage
+      users[currentUser] = cart;
+      localStorage.setItem('users', JSON.stringify(users));
+
+      // Reload the cart display
+      loadCart(currentUser);
+    }
+
+    // Function to edit an item in the cart
+    function editItem(username, index) {
+      const users = JSON.parse(localStorage.getItem('users'));
+      const cart = users[username];
+
+      const newQuantity = prompt('Enter new quantity:', cart[index].quantity);
+      if (newQuantity && !isNaN(newQuantity) && newQuantity > 0) {
+        cart[index].quantity = parseInt(newQuantity);
+        // Save updated cart to localStorage
+        users[username] = cart;
+        localStorage.setItem('users', JSON.stringify(users));
+        loadCart(username);
+      }
+    }
+
+    // Function to delete an item from the cart
+    function deleteItem(username, index) {
+      const users = JSON.parse(localStorage.getItem('users'));
+      const cart = users[username];
+      
+      cart.splice(index, 1);
+      // Save updated cart to localStorage
+      users[username] = cart;
+      localStorage.setItem('users', JSON.stringify(users));
+
+      // Reload the cart display
+      loadCart(username);
+    }
+
+    // If a user is already logged in, remove currentUser from localStorage to force login screen to appear
+    localStorage.removeItem('currentUser');
+
+    // If a user is logged in, load the cart (this will prompt for login again as currentUser is removed)
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      loadCart(currentUser);
+    }
+  </script>
+</body>
+</html>
