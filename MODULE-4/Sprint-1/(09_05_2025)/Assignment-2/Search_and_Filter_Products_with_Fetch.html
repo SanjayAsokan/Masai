@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search and Filter</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+        }
+        #controls {
+          display: flex;
+          gap: 10px;
+          margin: 20px;
+        }
+        #product-container {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 15px;
+          margin-top: 20px;
+        }
+        .product-card {
+          border: 1px solid #ccc;
+          padding: 10px;
+          width: 200px;
+          text-align: center;
+          background-color: #f9f9f9;
+        }
+        .product-card img {
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
+        }
+        #total {
+          margin-top: 20px;
+          font-size: 1.2em;
+          font-weight: bold;
+        }
+      </style>
+</head>
+<body>
+    <center><h1>Search and Filter Products with Fetch</h1></center>
+
+    <div id="controls">
+        <input type="text" id="search" placeholder="Search by title" />
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+        </select>
+        <select id="sortOrder">
+          <option value="default">Sort By Price</option>
+          <option value="asc">Low to High</option>
+          <option value="desc">High to Low</option>
+        </select>
+      </div>
+    
+      <div id="product-container"></div>
+      <div id="total"></div>
+    
+      <script>
+        const container = document.getElementById("product-container");
+        const searchInput = document.getElementById("search");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const sortOrder = document.getElementById("sortOrder");
+        const totalDiv = document.getElementById("total");
+    
+        let allProducts = [];
+    
+        // Fetch all products and categories
+        async function fetchData() {
+          try {
+            const [productRes, categoryRes] = await Promise.all([
+              fetch("https://fakestoreapi.com/products"),
+              fetch("https://fakestoreapi.com/products/categories")
+            ]);
+            const products = await productRes.json();
+            const categories = await categoryRes.json();
+    
+            allProducts = products;
+    
+            // Populate category dropdown
+            categories.forEach(cat => {
+              const opt = document.createElement("option");
+              opt.value = cat;
+              opt.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+              categoryFilter.appendChild(opt);
+            });
+    
+            renderProducts();
+          } catch (error) {
+            console.error("Error fetching data:", error);
+            container.innerHTML = `<p style="color:red;">Failed to load products. Please try again later.</p>`;
+          }
+        }
+    
+        // Render filtered/sorted/searched products
+        function renderProducts() {
+          const searchTerm = searchInput.value.toLowerCase();
+          const selectedCategory = categoryFilter.value;
+          const selectedSort = sortOrder.value;
+    
+          let filtered = allProducts.filter(product => 
+            product.title.toLowerCase().includes(searchTerm)
+          );
+    
+          if (selectedCategory !== "all") {
+            filtered = filtered.filter(p => p.category === selectedCategory);
+          }
+    
+          if (selectedSort === "asc") {
+            filtered.sort((a, b) => a.price - b.price);
+          } else if (selectedSort === "desc") {
+            filtered.sort((a, b) => b.price - a.price);
+          }
+    
+          // Render UI
+          container.innerHTML = "";
+          let total = 0;
+    
+          filtered.forEach(product => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+            card.innerHTML = `
+              <h4>${product.title}</h4>
+              <img src="${product.image}" alt="${product.title}">
+              <p><strong>Price:</strong> $${product.price}</p>
+            `;
+            container.appendChild(card);
+            total += product.price;
+          });
+    
+          totalDiv.textContent = `Total Price: $${total.toFixed(2)} (for ${filtered.length} items)`;
+        }
+    
+        // Attach event listeners
+        searchInput.addEventListener("input", renderProducts);
+        categoryFilter.addEventListener("change", renderProducts);
+        sortOrder.addEventListener("change", renderProducts);
+    
+        fetchData();
+      </script>
+</body>
+</html>
