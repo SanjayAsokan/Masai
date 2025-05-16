@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+  <h2>Paragraph Adder and Remover</h2>
+
+  <!-- Buttons to add and remove paragraphs -->
+  <button onclick="addParagraph()">Add Paragraph</button>
+  <button onclick="removeLastParagraph()">Remove Last Paragraph</button>
+
+  <!-- Container where paragraphs will be added -->
+  <div id="paragraphContainer"></div>
+
+</body>
+</html>
+ <script>
+
+    function addParagraph() {
+
+      // Create a new <p> element
+      var paragraph = document.createElement("p");
+      
+      // Set the text content of the paragraph
+      paragraph.textContent = "This is a new paragraph.";
+      
+      // Append the paragraph to the container
+      document.getElementById("paragraphContainer").appendChild(paragraph);
+      
+    }
+
+    function removeLastParagraph() {
+
+      // Get the container where paragraphs are added
+      var container = document.getElementById("paragraphContainer");
+      
+      // Check if there is at least one child to remove
+      if (container.lastChild) {
+        // Remove the last child element
+        container.removeChild(container.lastChild);
+      }
+    }
+  </script>

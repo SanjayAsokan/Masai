@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul></ul>
+    <button onclick="NewItem()">Add item</button>
+  
+    
+  </body>
+  </html>
+  <script>
+    function NewItem() {
+      let ul = document.querySelector('ul');
+      let li = document.createElement('li');
+      li.textContent = "New Item";
+
+      let count = ul.children.length + 1;
+
+      if (count % 2 === 0) {
+        li.style.fontWeight = "bold";
+        li.style.color = "blue";
+      } else {
+        li.style.fontStyle = "italic";
+        li.style.color = "red";
+      }
+
+      ul.appendChild(li);
+    }
+  </script>

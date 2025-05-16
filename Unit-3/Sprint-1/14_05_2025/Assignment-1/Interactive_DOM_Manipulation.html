@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<!-- Input fields and buttons -->
+<input id="color" placeholder="Enter color"><br><br>
+<input id="text" placeholder="Enter text"><br><br>
+
+<button onclick="changeBg()">Change Background</button>
+<button onclick="updateText()">Update Text</button>
+
+<div id="box"></div>
+</body>
+</html>
+
+
+<script>
+
+ // Change background color based on user input
+  function changeBg() {
+    var c = document.getElementById("color").value;
+    var box = document.getElementById("box");
+    box.style.backgroundColor = c;
+
+   // Alert if the color is not valid
+    if (box.style.backgroundColor == "") {
+      alert("Invalid color name!");
+    }
+  }
+
+ // Update text content based on user input
+  function updateText() {
+    var t = document.getElementById("text").value;
+
+    // Alert if no text is entered
+    if (t == "") {
+      alert("Please enter some text!");
+    } else {
+      document.getElementById("box").innerText = t;
+    }
+  }
+</script>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id='h1'>I'm H1 Tag</h1>
+    <p>I'm p Tag</p>
+    <p>I'm p Tag</p>
+    <p>I'm p Tag</p>
+    <p>I'm p Tag</p>
+    <p>I'm p Tag</p>
+    <div class="container">I'm Div 1</div>
+    <div>I'm Div 2</div>
+</body>
+</html>
+<script>
+let h1 = document.getElementById('h1')
+h1.innerText = "Welcome to the DOM World!"
+
+let p = document.getElementsByTagName('p')
+for(let i=0;i<p.length;i++){
+p[i].style.color = "blue"
+}
+
+let div = document.querySelector('.container')
+div.style.backgroundColor = 'yellow';
+
+</script>
