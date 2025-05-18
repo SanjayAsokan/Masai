@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enhanced Todo List with localStorage</title>
+  <style>
+    #container{
+        margin: auto;
+        height: auto;
+        width: 50%;
+        border: 2px solid black;
+        padding: 20px;
+        background-color: lightgreen;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <center><h1>Enhanced Todo List with localStorage and Search</h1></center>
+  <div id="container">
+  <h2>Task Manager</h2>
+
+  <input type="text" id="taskInput" placeholder="Enter Task" />
+  <button id="add-btn">Add Task</button><br><br>
+
+  <input type="text" id="searchInput" placeholder="Search Tasks..." />
+  <button id="search-btn">Search</button>
+  <br><br>
+
+  <button id="showall">All</button>
+  <button id="showcompleted">Show Completed</button>
+  <button id="showincompleted">Show Incomplete</button>
+
+  <ul id="taskList"></ul>
+
+  <p>
+    Total: <span id="total">0</span> |
+    Completed: <span id="done">0</span> |
+    Incomplete: <span id="notdone">0</span>
+  </p>
+</div>
+  <script>
+    let tasks = [];
+    let currentFilter = "all";
+    let currentSearch = "";
+
+    const taskInput = document.getElementById("taskInput");
+    const searchInput = document.getElementById("searchInput");
+    const taskList = document.getElementById("taskList");
+    const totalSpan = document.getElementById("total");
+    const completed = document.getElementById("done");
+    const incomplete = document.getElementById("notdone");
+
+    function loadTasks() {
+      const stored = localStorage.getItem("tasks");
+      if (stored) {
+        tasks = JSON.parse(stored);
+      } else {
+        tasks = [];
+      }
+    }
+
+    function saveTasks() {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
+    function updateList(filter = currentFilter, search = currentSearch) {
+      taskList.innerHTML = "";
+
+      currentFilter = filter;
+      currentSearch = search.toLowerCase();
+
+      const filtered = tasks.filter(task => {
+        const matchesFilter =
+          filter === "completed" ? task.done :
+          filter === "incompleted" ? !task.done : true;
+        const matchesSearch = task.text.toLowerCase().includes(currentSearch);
+        return matchesFilter && matchesSearch;
+      });
+
+      filtered.forEach((task, index) => {
+        const li = document.createElement("li");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.done;
+        checkbox.onchange = () => {
+          task.done = checkbox.checked;
+          saveTasks();
+          updateList();
+        };
+
+        const span = document.createElement("span");
+        span.textContent = " " + task.text + " ";
+        if (task.done) span.classList.add("completed");
+
+        const del = document.createElement("button");
+        del.textContent = "Delete";
+        del.onclick = () => {
+          tasks.splice(index, 1);
+          saveTasks();
+          updateList();
+        };
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(del);
+        taskList.appendChild(li);
+      });
+
+      totalSpan.textContent = tasks.length;
+      completed.textContent = tasks.filter(t => t.done).length;
+      incomplete.textContent = tasks.filter(t => !t.done).length;
+    }
+
+    document.getElementById("add-btn").onclick = () => {
+      const text = taskInput.value.trim();
+      if (text === "") {
+        alert("Please enter a task");
+        return;
+      }
+      tasks.push({ text: text, done: false });
+      taskInput.value = "";
+      saveTasks();
+      updateList();
+    };
+
+    // Search button functionality
+    document.getElementById("search-btn").onclick = () => {
+      const searchValue = searchInput.value.trim();
+      updateList(currentFilter, searchValue);
+    };
+
+    // Filter buttons
+    document.getElementById("showall").onclick = () => updateList("all", searchInput.value);
+    document.getElementById("showcompleted").onclick = () => updateList("completed", searchInput.value);
+    document.getElementById("showincompleted").onclick = () => updateList("incompleted", searchInput.value);
+
+    loadTasks();
+    updateList();
+  </script>
+</body>
+</html>

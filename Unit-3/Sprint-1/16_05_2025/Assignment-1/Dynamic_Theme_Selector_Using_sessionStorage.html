@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Theme Selector</title>
+    <style>body.light {
+        background-color: #ffffff;
+        color: #000000;
+      }
+  
+      body.dark {
+        background-color: #121212;
+        color: #ffffff;
+      }
+  
+      form {
+        max-width: 400px;
+        margin: auto;
+        background-color: #f5f5f5;
+        padding: 2rem;
+        border-radius: 8px;
+      }
+  
+      label, select, input {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+  
+      button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+  
+      h1 {
+        text-align: center;
+      }</style>
+</head>
+<body class="light">
+    <center><h1>Dynamic Theme Selector Using sessionStorage</h1></center>
+    <form id="preferencesForm">
+        <label for="theme">Theme:</label>
+        <select id="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      
+        <label for="language">Language:</label>
+        <select id="language">
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+        </select>
+      
+        <label for="notifications">Notifications:</label>
+        <input type="checkbox" id="notifications">
+      
+        <button type="submit">Save Preferences</button>
+      </form>
+      
+      <script>
+        const form = document.getElementById('preferencesForm');
+        const theme = document.getElementById('theme');
+        const language = document.getElementById('language');
+        const notifications = document.getElementById('notifications');
+      
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const preference = {
+            theme: theme.value,
+            language: language.value,
+            notifications: notifications.checked
+          };
+          sessionStorage.setItem('preferences', JSON.stringify(preference));
+          applyTheme(preference.theme)
+          alert('Preferences Saved!');
+        });
+      
+        window.onload = () => {
+          const savedpreference = sessionStorage.getItem('preference');
+          if (savedpreference) {
+            const { theme, language, notifications } = JSON.parse(savedpreference);
+            theme.value = theme;
+            language.value = language;
+            notifications.checked = notifications;
+            applyTheme(theme);
+          }
+        };
+
+        function applyTheme(selectedTheme) {
+      document.body.classList.remove('light', 'dark');
+      document.body.classList.add(selectedTheme);
+    }
+      </script>
+      
+      
+</body>
+</html>
