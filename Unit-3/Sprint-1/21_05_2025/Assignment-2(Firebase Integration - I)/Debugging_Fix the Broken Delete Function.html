@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>debugging</title>
+</head>
+
+<body>
+    <center>
+        <h1>Debugging</h1>
+    </center>
+    <script>
+        const deleteUser = (key) => {
+            fetch(`https://usersdatabase-5c023-default-rtdb.asia-southeast1.firebasedatabase.app/users`, {
+                method: 'DELETE',
+            })
+                .then(response => response.json())
+                .then(() => {
+                    if(response.ok)
+                    console.log("User deleted successfully");
+                })
+                .catch(error => console.error("Error deleting user:", error));
+        };
+    </script>
+</body>
+
+</html>

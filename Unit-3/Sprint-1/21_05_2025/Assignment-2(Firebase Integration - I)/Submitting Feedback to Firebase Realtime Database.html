@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback to Firebase</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: rgb(214, 213, 211);
+        }
+        #userform{
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        input{
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1em;
+        }
+        button {
+            width: 20%;
+            height: 40px;
+            padding: 10px;
+            margin: 10px 0 0 200px;
+            background-color: aqua;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        #message {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        #messages{
+            width:103%;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>Submitting Feedback to Firebase Realtime Database</h1>
+    
+
+    <h2>Register Form</h2></center>
+    <form action="" id="userform">
+        <input type="text" id="name" placeholder="Enter your Username">
+        <textarea id="messages" rows="4" cols="20" placeholder="Write the Message here.."></textarea> 
+        <button type="submit"> Save</button>
+    </form>
+
+    <div id="message"></div>
+</body>
+
+</html>
+
+<script>
+    document.getElementById('userform').addEventListener('submit', async function (e) {
+        e.preventDefault()
+
+        const name = document.getElementById('name').value;
+        const messages = document.getElementById('messages').value;
+        const message = document.getElementById('message');
+
+        //validate inputs
+        if (!name || !messages) {
+            message.textContent = 'All fields are required.'
+            message.className = 'error';
+            return;
+        }
+        try {
+            const res = await fetch('https://usersdatabase-5c023-default-rtdb.asia-southeast1.firebasedatabase.app/users.json', {
+                method: 'POST',
+                headers: { "Content-type": 'application/json' },
+                body: JSON.stringify({ name, messages})
+            });
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(errorData.message || 'message failed');
+            }
+            message.textContent = "message posted Successfull"
+            message.className = "success"
+            document.getElementById('userform').reset()
+
+
+        } catch (error) {
+            message.textContent = `Error: ${error.message}`;
+            message.className = 'error'
+        }
+    });
+</script>

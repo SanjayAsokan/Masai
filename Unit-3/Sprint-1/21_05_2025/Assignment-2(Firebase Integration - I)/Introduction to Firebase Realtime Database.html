@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Realtime Database</title>
+    <style>
+        #userList {
+            margin: auto;
+            justify-content: center;
+            align-content: center;
+            padding: 10px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0 10px 150px;
+
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>Introduction to Firebase Realtime Database</h1>
+    </center>
+    <div id="userList">
+        <center>
+            <h2>The Users Details</h2>
+        </center>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody"></tbody>
+        </table>
+    </div>
+</body>
+
+</html>
+<script>
+    async function loadUsers() {
+        try {
+            const res = await fetch('https://usersdatabase-5c023-default-rtdb.asia-southeast1.firebasedatabase.app/users.json');
+            const users = await res.json();
+
+            const tbody = document.getElementById('userTableBody')
+            tbody.innerHTML = "";
+
+            if (users) {
+                Object.entries(users).forEach(([id, user]) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+              <td>${id}</td>
+              <td>${user.name}</td>
+              <td>${user.email}</td>
+            `;
+                    tbody.appendChild(row);
+                });
+            } 
+            else {
+                tbody.innerHTML = '<tr><td colspan="3">No users found.</td></tr>';
+            }
+        } 
+        catch (error) {
+            alert('Failed to load user data.');
+            console.error(error);
+        }
+    }
+
+    window.onload = loadUsers;
+</script>

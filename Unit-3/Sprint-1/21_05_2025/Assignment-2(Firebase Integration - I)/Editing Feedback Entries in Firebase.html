@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Feedback Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    input,
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1em;
+    }
+
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+    <h1>POST Method – User FeedBack Form</h1>
+  </center>
+  <div id="message"></div>
+
+  <div id="userList">
+    <h2>The Users Details</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Messages</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody id="userTableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+  const API_URL = 'https://usersdatabase-5c023-default-rtdb.asia-southeast1.firebasedatabase.app/users';
+
+
+  async function loadUsers() {
+    try {
+      const res = await fetch(`${API_URL}.json`);
+      const users = await res.json();
+
+      const tbody = document.getElementById('userTableBody');
+      tbody.innerHTML = '';
+
+      if (users) {
+        Object.entries(users).forEach(([id, user]) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${id}</td>
+            <td>${user.name}</td>
+            <td>${user.messages}</td>
+            <td><button onclick="editUser('${id}', '${user.messages}')">Edit</button></td>
+            <td><button onclick="deleteUser('${id}')">Delete</button></td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+    } catch (error) {
+      document.getElementById('message').textContent = 'Failed to load user data.';
+    }
+  }
+
+  async function editUser(id, messages) {
+    const newName = prompt("Enter new message:", messages);
+    if (!newName || newName.trim() === '') {
+      alert("message is required.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/${id}.json`, {
+        method: 'PATCH',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newName.trim() })
+      });
+
+      if (!res.ok) throw new Error("Update failed");
+
+      alert("Message updated successfully!");
+      loadUsers();
+    } catch (error) {
+      alert(`Error updating user: ${error.message}`);
+    }
+  }
+
+  async function deleteUser(id) {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    try {
+      const res = await fetch(`${API_URL}/${id}.json`, {
+        method: 'DELETE'
+      });
+
+      if (!res.ok) throw new Error("Delete failed");
+
+      alert("User deleted successfully!");
+      loadUsers();
+    } catch (error) {
+      alert(`Error deleting user: ${error.message}`);
+    }
+  }
+
+  window.onload = loadUsers;
+</script>
+
+</body>
+
+</html>
