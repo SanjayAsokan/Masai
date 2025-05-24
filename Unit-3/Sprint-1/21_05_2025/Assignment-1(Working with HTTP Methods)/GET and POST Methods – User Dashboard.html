@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>POST Method – User Dashboard</title>
+  <style>
+    body {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      background-color: rgb(239, 255, 251);
+    }
+
+    #registerForm {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1em;
+    }
+
+    button {
+
+      width: 90%;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0 0px 30px;
+      background-color: rgb(131, 197, 198);
+      font-size: 1em;
+    }
+
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    #userList {
+      max-width: 900px;
+      margin: -60px auto;
+      padding: 20px;
+
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+    <h1>GET and POST Methods – User Dashboard</h1>
+
+
+    <h2>Register Form</h2>
+  </center>
+  <form id="registerForm">
+    <input type="text" id="name" placeholder="Enter your name" />
+    <input type="email" id="email" placeholder="Enter your Email" />
+    <input type="password" id="password" placeholder="Enter password" />
+    <button type="submit">Register</button>
+  </form>
+
+  <div id="message"></div>
+
+  <div id="userList">
+    <h2>The Users Details</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="userTableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const API_URL = 'https://681f9e1672e59f922ef6b92e.mockapi.io/user_details';
+
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const message = document.getElementById('message');
+
+      if (!name || !email || !password) {
+        message.textContent = 'All fields are required.';
+        message.className = 'error';
+        return;
+      }
+
+      try {
+        // Fetch all users to check if email already exists
+        const res = await fetch(API_URL);
+        const users = await res.json();
+
+        const emailExists = users.some(user => user.email.toLowerCase() === email.toLowerCase());
+
+        if (emailExists) {
+          message.textContent = 'This email is already registered.';
+          message.className = 'error';
+          return;
+        }
+
+        // Post new user
+        const postRes = await fetch(API_URL, {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        if (!postRes.ok) throw new Error('Registration failed');
+
+        message.textContent = "Registration Successful!";
+        message.className = "success";
+        document.getElementById('registerForm').reset();
+        loadUsers();
+
+      } catch (error) {
+        message.textContent = `Error: ${error.message}`;
+        message.className = 'error';
+      }
+    });
+
+    async function loadUsers() {
+      try {
+        const res = await fetch(API_URL);
+        const users = await res.json();
+
+        const tbody = document.getElementById('userTableBody');
+        tbody.innerHTML = '';
+
+        users.forEach(user => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      } catch (error) {
+        document.getElementById('message').textContent = 'Failed to load user data.';
+      }
+    }
+
+    // Load users on page load
+    window.onload = loadUsers;
+  </script>
+</body>
+
+</html>
