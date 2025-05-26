@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Manager</title>
+    <style>
+        body{
+            padding: 20px;
+            background-color: antiquewhite;
+        }
+        input,
+        select{
+            margin: 5px;
+            padding: 5px;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid;
+            padding: 8px;
+            text-align: left;
+        }
+        th{
+            background-color: #f4f4f4;
+            cursor: pointer;
+        }
+        button{
+            margin-right: 5px;
+        }
+
+    </style>
+</head>
+<body>
+   <center><h2> Student Manager</h2></center> 
+
+   <input type="text" id="searchInput" placeholder="Search by name or grade" onkeyup="filerstudent()">
+
+   <div>
+    <label for="gradeFilter">Grade:</label>
+    <select id="gradeFilter" onchange="filterstudens()">
+        <ooption value="">All</ooption>
+        <ooption value="9th">9th</ooption>
+        <ooption value="10th">10th</ooption>
+        <ooption value="11th">11th</ooption>
+        <ooption value="12th">12th</ooption>
+    </select>
+
+    <label for="sectionFilter">Section:</label>
+    <select id="sectionFilter" onchange="filterstudens()">
+        <ooption value="">All</ooption>
+        <ooption value="A">9th</ooption>
+        <ooption value="B">10th</ooption>
+        <ooption value="C">11th</ooption>
+        <ooption value="D">12th</ooption>
+    </select>
+   </div>
+
+   <button onclick="sortTable('name')"> Sort by Name</button>
+   <button onclick="sortTable('score')">Sort by Score</button>
+
+   <table id="studentTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Grade</th>
+            <th>Section</th>
+            <th>Score</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+   </table>
+
+</body>
+</html>
+<script>
+
+    const BASE_URL = "https://usersdatabase-5c023-default-rtdb.asia-southeast1.firebasedatabase.app/students";
+
+    async function filterstudent(){
+        try{
+            const response = await fetch(BASE_URL)
+            const data = await response.json();
+
+            if(data){
+                students = Object.entries(data).map(([id, student])=>({id, ...student}))
+                filerstudens = [...students]
+                filterstudent()
+            }
+            else{
+                students =[]
+                filterstudens =[]
+            }
+        }
+        catch(err){
+            console.log('Fetch error:', err)
+        }        
+    }
+    async function saveStudent(id, studentData) {
+        try{
+            await fetch(BASE_URL/`${students.id}.json`,{
+                method:'PUT',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify(studentData)
+            })
+        }
+        catch(err){
+            consol.log(err)
+        }
+        
+    }
+</script>
