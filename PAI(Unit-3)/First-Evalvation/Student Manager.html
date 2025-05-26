@@ -1,117 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Manager</title>
     <style>
-        body{
+        body {
             padding: 20px;
-            background-color: antiquewhite;
+            background-color: #e6f2ff;
         }
+
         input,
-        select{
+        select {
             margin: 5px;
             padding: 5px;
         }
-        table{
+
+        table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid;
             padding: 8px;
             text-align: left;
         }
-        th{
+
+        th {
             background-color: #f4f4f4;
             cursor: pointer;
         }
-        button{
+
+        button {
             margin-right: 5px;
         }
-
     </style>
 </head>
+
 <body>
-   <center><h2> Student Manager</h2></center> 
+    <center>
+        <h2>Student Manager</h2>
+    </center>
 
-   <input type="text" id="searchInput" placeholder="Search by name or grade" onkeyup="filerstudent()">
+    <input type="text" id="searchInput" placeholder="Search by name or grade" onkeyup="filterStudents()">
 
-   <div>
-    <label for="gradeFilter">Grade:</label>
-    <select id="gradeFilter" onchange="filterstudens()">
-        <ooption value="">All</ooption>
-        <ooption value="9th">9th</ooption>
-        <ooption value="10th">10th</ooption>
-        <ooption value="11th">11th</ooption>
-        <ooption value="12th">12th</ooption>
-    </select>
+    <div>
+        <label for="gradeFilter">Grade:</label>
+        <select id="gradeFilter" onchange="filterStudents()">
+            <option value="">All</option>
+            <option value="9th">9th</option>
+            <option value="10th">10th</option>
+            <option value="11th">11th</option>
+            <option value="12th">12th</option>
+        </select>
 
-    <label for="sectionFilter">Section:</label>
-    <select id="sectionFilter" onchange="filterstudens()">
-        <ooption value="">All</ooption>
-        <ooption value="A">9th</ooption>
-        <ooption value="B">10th</ooption>
-        <ooption value="C">11th</ooption>
-        <ooption value="D">12th</ooption>
-    </select>
-   </div>
+        <label for="sectionFilter">Section:</label>
+        <select id="sectionFilter" onchange="filterStudents()">
+            <option value="">All</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+    </div>
 
-   <button onclick="sortTable('name')"> Sort by Name</button>
-   <button onclick="sortTable('score')">Sort by Score</button>
-
-   <table id="studentTable">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Grade</th>
-            <th>Section</th>
-            <th>Score</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-   </table>
-
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Grade</th>
+                <th>Section</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 </body>
+
 </html>
-<script>
+  <script>
+        const BASE_URL = "https://usersdatabase-5c023-default-rtdb.asia-southeast1.firebasedatabase.app/students.json";
 
-    const BASE_URL = "https://usersdatabase-5c023-default-rtdb.asia-southeast1.firebasedatabase.app/students";
+        let students = [];
 
-    async function filterstudent(){
-        try{
-            const response = await fetch(BASE_URL)
-            const data = await response.json();
-
-            if(data){
-                students = Object.entries(data).map(([id, student])=>({id, ...student}))
-                filerstudens = [...students]
-                filterstudent()
-            }
-            else{
-                students =[]
-                filterstudens =[]
+        async function fetchStudents() {
+            try {
+                const response = await fetch(BASE_URL);
+                const data = await response.json();
+                if (data) {
+                    students = Object.entries(data).map(([id, student]) => ({ id, ...student }));
+                    renderStudents(students);
+                }
+            } catch (err) {
+                console.error("Fetch error:", err);
             }
         }
-        catch(err){
-            console.log('Fetch error:', err)
-        }        
-    }
-    async function saveStudent(id, studentData) {
-        try{
-            await fetch(BASE_URL/`${students.id}.json`,{
-                method:'PUT',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify(studentData)
-            })
+
+        function renderStudents(data) {
+            const tbody = document.querySelector("tbody");
+            tbody.innerHTML = "";
+            data.forEach((student) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+          <td>${student.name}</td>
+          <td>${student.age}</td>
+          <td>${student.grade}</td>
+          <td>${student.section}</td>
+          <td>${student.score}</td>
+        `;
+                tbody.appendChild(row);
+            });
         }
-        catch(err){
-            consol.log(err)
+
+        function filterStudents() {
+            const search = document.getElementById("searchInput").value.toLowerCase()
+            const grade = document.getElementById("gradeFilter").value;
+            const section = document.getElementById("sectionFilter").value;
+
+            const filtered = students.filter(student => {
+                const matchesSearch = student.name.toLowerCase().includes(search) || student.grade.toLowerCase().includes(search);
+                const matchesGrade = grade === "" || student.grade === grade;
+                const matchesSection = section === "" || student.section === section;
+                return matchesSearch && matchesGrade && matchesSection;
+            });
+
+            renderStudents(filtered);
         }
-        
-    }
-</script>
+
+        fetchStudents();
+    </script>
