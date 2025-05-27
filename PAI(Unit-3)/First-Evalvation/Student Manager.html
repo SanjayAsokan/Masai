@@ -67,6 +67,7 @@
             <option value="D">D</option>
         </select>
     </div>
+<<<<<<< HEAD
 
     <table id="studentTable">
         <thead>
@@ -135,3 +136,72 @@
 </body>
 
 </html>
+=======
+
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Grade</th>
+                <th>Section</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+
+</html>
+  <script>
+        const BASE_URL = "https://usersdatabase-5c023-default-rtdb.asia-southeast1.firebasedatabase.app/students.json";
+
+        let students = [];
+
+        async function fetchStudents() {
+            try {
+                const response = await fetch(BASE_URL);
+                const data = await response.json();
+                if (data) {
+                    students = Object.entries(data).map(([id, student]) => ({ id, ...student }));
+                    renderStudents(students);
+                }
+            } catch (err) {
+                console.error("Fetch error:", err);
+            }
+        }
+
+        function renderStudents(data) {
+            const tbody = document.querySelector("tbody");
+            tbody.innerHTML = "";
+            data.forEach((student) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+          <td>${student.name}</td>
+          <td>${student.age}</td>
+          <td>${student.grade}</td>
+          <td>${student.section}</td>
+          <td>${student.score}</td>
+        `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function filterStudents() {
+            const search = document.getElementById("searchInput").value.toLowerCase()
+            const grade = document.getElementById("gradeFilter").value;
+            const section = document.getElementById("sectionFilter").value;
+
+            const filtered = students.filter(student => {
+                const matchesSearch = student.name.toLowerCase().includes(search) || student.grade.toLowerCase().includes(search);
+                const matchesGrade = grade === "" || student.grade === grade;
+                const matchesSection = section === "" || student.section === section;
+                return matchesSearch && matchesGrade && matchesSection;
+            });
+
+            renderStudents(filtered);
+        }
+
+        fetchStudents();
+    </script>
+>>>>>>> 806c778dc661ef1c7f1e2465e9886b05dc8dcc88
